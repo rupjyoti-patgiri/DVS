@@ -1,8 +1,7 @@
 #include "Candidate.h"
 using namespace std;
 
-Candidate::Candidate(const string &id, const string &name)
-    : id(id), name(name) {}
+// Person implementation is already in Voter.cpp
 
-string Candidate::getId() const { return id; }
-string Candidate::getName() const { return name; }
+Candidate::Candidate(const string &id, const string &name)
+    : Person(id, name) {}

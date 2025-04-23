@@ -5,13 +5,36 @@
 #include <fstream>
 #include <map>
 #include <set>
+#include <string>
 using namespace std;
 
 void ElectionCommission::registerVoter()
 {
     string id, name;
+
+    // ✅ Step 1: Load existing voter IDs
+    set<string> existingVoterIds;
+    ifstream vin("data/voters.txt");
+    string vline;
+    while (getline(vin, vline))
+    {
+        if (vline.empty())
+            continue;
+        auto pos = vline.find(',');
+        string existingId = vline.substr(0, pos);
+        existingVoterIds.insert(existingId);
+    }
+    vin.close();
+
+    // ✅ Step 2: Input and check for duplicates
     cout << "Enter Voter ID: ";
     cin >> id;
+    if (existingVoterIds.find(id) != existingVoterIds.end())
+    {
+        cout << "Voter ID already exists. Registration failed.\n";
+        return;
+    }
+
     cout << "Enter Voter Name: ";
     cin.ignore();
     getline(cin, name);
@@ -23,8 +46,30 @@ void ElectionCommission::registerVoter()
 void ElectionCommission::registerCandidate()
 {
     string id, name;
+
+    // ✅ Step 1: Load existing candidate IDs
+    set<string> existingCandidateIds;
+    ifstream cinf("data/candidates.txt");
+    string cline;
+    while (getline(cinf, cline))
+    {
+        if (cline.empty())
+            continue;
+        auto pos = cline.find(',');
+        string existingId = cline.substr(0, pos);
+        existingCandidateIds.insert(existingId);
+    }
+    cinf.close();
+
+    // ✅ Step 2: Input and check for duplicates
     cout << "Enter Candidate ID: ";
     cin >> id;
+    if (existingCandidateIds.find(id) != existingCandidateIds.end())
+    {
+        cout << "Candidate ID already exists. Registration failed.\n";
+        return;
+    }
+
     cout << "Enter Candidate Name: ";
     cin.ignore();
     getline(cin, name);
@@ -64,7 +109,7 @@ void ElectionCommission::startElection()
         cout << "ID: " << id << " | Name: " << name << "\n";
     }
     cfin.close();
-    cout << "************************\n\n";
+    cout << "\n\n";
 
     Election election;
     string voterId, candidateId;
@@ -111,7 +156,7 @@ void ElectionCommission::showResults()
     cout << "Election Results:\n";
     for (auto &p : counts)
     {
-        cout << candidates[p.first] << " (" << p.first << "): " << p.second << "\n";
+        cout << candidates[p.first] << " (" << p.first << "):Votes- " << p.second << "\n";
     }
 }
 

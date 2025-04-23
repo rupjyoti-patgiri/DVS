@@ -1,19 +1,12 @@
 #ifndef CANDIDATE_H
 #define CANDIDATE_H
 
-#include <string>
-using namespace std;
+#include "Voter.h" // Already contains Person
 
-class Candidate
+class Candidate : public Person
 {
 public:
-    Candidate(const string &id, const string &name);
-    string getId() const;
-    string getName() const;
-
-private:
-    string id;
-    string name;
+    Candidate(const std::string &id, const std::string &name);
 };
 
 #endif // CANDIDATE_H
