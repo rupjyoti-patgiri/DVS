@@ -9,7 +9,7 @@ class ElectionCommission
 public:
     void registerVoter();
     void registerCandidate();
-    void startElection();
+    void startElection(); // now shows candidates before voting
     void showResults();
     void deleteResults();
 };

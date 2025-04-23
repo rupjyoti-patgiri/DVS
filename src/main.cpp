@@ -41,10 +41,3 @@ int main()
     } while (choice != 6);
     return 0;
 }
-
-// To run
-
-// g++ -std=c++11 -Iinclude `
-// src\Voter.cpp ` src\Candidate.cpp ` src\Election.cpp ` src\ElectionCommission.cpp ` src\main.cpp ` - o OnlineVotingSystem.exe
-                                                                                                         
-// .\OnlineVotingSystem.exe

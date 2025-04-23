@@ -3,6 +3,7 @@
 #include "Candidate.h"
 #include <iostream>
 #include <fstream>
+#include <map>
 
 void ElectionCommission::registerVoter()
 {
@@ -32,6 +33,24 @@ void ElectionCommission::registerCandidate()
 
 void ElectionCommission::startElection()
 {
+    // Display all registered candidates before voting
+    std::ifstream fin("data/candidates.txt");
+    std::string line;
+    std::map<std::string, std::string> candidates;
+    std::cout << "\n*** Candidates List ***\n";
+    while (std::getline(fin, line))
+    {
+        if (line.empty())
+            continue;
+        auto pos = line.find(',');
+        std::string id = line.substr(0, pos);
+        std::string name = line.substr(pos + 1);
+        candidates[id] = name;
+        std::cout << "ID: " << id << " | Name: " << name << "\n";
+    }
+    fin.close();
+    std::cout << "************************\n\n";
+
     Election election;
     std::string voterId, candidateId;
     while (true)
@@ -61,6 +80,7 @@ void ElectionCommission::showResults()
         std::string name = line.substr(pos + 1);
         candidates[id] = name;
     }
+    fin.close();
 
     Election election;
     auto counts = election.countVotes();
