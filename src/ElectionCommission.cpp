@@ -4,91 +4,114 @@
 #include <iostream>
 #include <fstream>
 #include <map>
+#include <set>
+using namespace std;
 
 void ElectionCommission::registerVoter()
 {
-    std::string id, name;
-    std::cout << "Enter Voter ID: ";
-    std::cin >> id;
-    std::cout << "Enter Voter Name: ";
-    std::cin.ignore();
-    std::getline(std::cin, name);
-    std::ofstream out("data/voters.txt", std::ios::app);
+    string id, name;
+    cout << "Enter Voter ID: ";
+    cin >> id;
+    cout << "Enter Voter Name: ";
+    cin.ignore();
+    getline(cin, name);
+    ofstream out("data/voters.txt", ios::app);
     out << id << "," << name << "\n";
-    std::cout << "Voter registered.\n";
+    cout << "Voter registered.\n";
 }
 
 void ElectionCommission::registerCandidate()
 {
-    std::string id, name;
-    std::cout << "Enter Candidate ID: ";
-    std::cin >> id;
-    std::cout << "Enter Candidate Name: ";
-    std::cin.ignore();
-    std::getline(std::cin, name);
-    std::ofstream out("data/candidates.txt", std::ios::app);
+    string id, name;
+    cout << "Enter Candidate ID: ";
+    cin >> id;
+    cout << "Enter Candidate Name: ";
+    cin.ignore();
+    getline(cin, name);
+    ofstream out("data/candidates.txt", ios::app);
     out << id << "," << name << "\n";
-    std::cout << "Candidate registered.\n";
+    cout << "Candidate registered.\n";
 }
 
 void ElectionCommission::startElection()
 {
-    // Display all registered candidates before voting
-    std::ifstream fin("data/candidates.txt");
-    std::string line;
-    std::map<std::string, std::string> candidates;
-    std::cout << "\n*** Candidates List ***\n";
-    while (std::getline(fin, line))
+    // Load registered voters
+    ifstream vfin("data/voters.txt");
+    set<string> voters;
+    string vline;
+    while (getline(vfin, vline))
     {
-        if (line.empty())
+        if (vline.empty())
             continue;
-        auto pos = line.find(',');
-        std::string id = line.substr(0, pos);
-        std::string name = line.substr(pos + 1);
-        candidates[id] = name;
-        std::cout << "ID: " << id << " | Name: " << name << "\n";
+        auto pos = vline.find(',');
+        voters.insert(vline.substr(0, pos));
     }
-    fin.close();
-    std::cout << "************************\n\n";
+    vfin.close();
+
+    // Display candidates
+    ifstream cfin("data/candidates.txt");
+    string cline;
+    map<string, string> candidates;
+    cout << "\n*** Candidates List ***\n";
+    while (getline(cfin, cline))
+    {
+        if (cline.empty())
+            continue;
+        auto pos = cline.find(',');
+        string id = cline.substr(0, pos);
+        string name = cline.substr(pos + 1);
+        candidates[id] = name;
+        cout << "ID: " << id << " | Name: " << name << "\n";
+    }
+    cfin.close();
+    cout << "************************\n\n";
 
     Election election;
-    std::string voterId, candidateId;
+    string voterId, candidateId;
     while (true)
     {
-        std::cout << "Enter Voter ID (or 'q' to quit): ";
-        std::cin >> voterId;
+        cout << "Enter Voter ID (or 'q' to quit): ";
+        cin >> voterId;
         if (voterId == "q")
             break;
-        std::cout << "Enter Candidate ID to vote for: ";
-        std::cin >> candidateId;
+        if (voters.find(voterId) == voters.end())
+        {
+            cout << "Invalid Voter ID. Please register first.\n";
+            continue;
+        }
+        cout << "Enter Candidate ID to vote for: ";
+        cin >> candidateId;
+        if (candidates.find(candidateId) == candidates.end())
+        {
+            cout << "Invalid Candidate ID. Please try again.\n";
+            continue;
+        }
         election.castVote(candidateId);
-        std::cout << "Vote recorded.\n";
+        cout << "Vote recorded.\n";
     }
 }
 
 void ElectionCommission::showResults()
 {
-    std::ifstream fin("data/candidates.txt");
-    std::map<std::string, std::string> candidates;
-    std::string line;
-    while (std::getline(fin, line))
+    ifstream fin("data/candidates.txt");
+    map<string, string> candidates;
+    string line;
+    while (getline(fin, line))
     {
         if (line.empty())
             continue;
         auto pos = line.find(',');
-        std::string id = line.substr(0, pos);
-        std::string name = line.substr(pos + 1);
-        candidates[id] = name;
+        candidates[line.substr(0, pos)] = line.substr(pos + 1);
     }
     fin.close();
 
     Election election;
     auto counts = election.countVotes();
 
-    std::cout << "Election Results:\n";
-    for (const auto &p : counts)
+    cout << "Election Results:\n";
+    for (auto &p : counts)
     {
-        std::cout << candidates[p.first] << " (" << p.first << "): " << p.second << "\n";
+        cout << candidates[p.first] << " (" << p.first << "): " << p.second << "\n";
     }
 }
 
@@ -96,5 +119,5 @@ void ElectionCommission::deleteResults()
 {
     Election election;
     election.resetResults();
-    std::cout << "Results cleared.\n";
+    cout << "Results cleared.\n";
 }

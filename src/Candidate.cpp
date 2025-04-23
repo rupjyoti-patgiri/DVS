@@ -1,7 +1,8 @@
 #include "Candidate.h"
+using namespace std;
 
-Candidate::Candidate(const std::string &id, const std::string &name)
+Candidate::Candidate(const string &id, const string &name)
     : id(id), name(name) {}
 
-std::string Candidate::getId() const { return id; }
-std::string Candidate::getName() const { return name; }
+string Candidate::getId() const { return id; }
+string Candidate::getName() const { return name; }

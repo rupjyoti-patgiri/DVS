@@ -1,7 +1,8 @@
 #include "Voter.h"
+using namespace std;
 
-Voter::Voter(const std::string &id, const std::string &name)
+Voter::Voter(const string &id, const string &name)
     : id(id), name(name) {}
 
-std::string Voter::getId() const { return id; }
-std::string Voter::getName() const { return name; }
+string Voter::getId() const { return id; }
+string Voter::getName() const { return name; }

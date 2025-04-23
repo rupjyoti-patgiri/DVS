@@ -3,6 +3,7 @@
 
 #include "Election.h"
 #include <string>
+using namespace std;
 
 class ElectionCommission
 {

@@ -1,5 +1,6 @@
 #include "ElectionCommission.h"
 #include <iostream>
+using namespace std;
 
 int main()
 {
@@ -7,14 +8,14 @@ int main()
     int choice;
     do
     {
-        std::cout << "\n1. Register Voter\n"
-                  << "2. Register Candidate\n"
-                  << "3. Start Election\n"
-                  << "4. Show Results\n"
-                  << "5. Delete Results\n"
-                  << "6. Exit\n"
-                  << "Enter choice: ";
-        std::cin >> choice;
+        cout << "\n1. Register Voter\n"
+             << "2. Register Candidate\n"
+             << "3. Start Election\n"
+             << "4. Show Results\n"
+             << "5. Delete Results\n"
+             << "6. Exit\n"
+             << "Enter choice: ";
+        cin >> choice;
         switch (choice)
         {
         case 1:
@@ -33,10 +34,10 @@ int main()
             ec.deleteResults();
             break;
         case 6:
-            std::cout << "Exiting.\n";
+            cout << "Exiting.\n";
             break;
         default:
-            std::cout << "Invalid choice.\n";
+            cout << "Invalid choice.\n";
         }
     } while (choice != 6);
     return 0;

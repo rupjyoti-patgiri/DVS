@@ -2,17 +2,18 @@
 #define VOTER_H
 
 #include <string>
+using namespace std;
 
 class Voter
 {
 public:
-    Voter(const std::string &id, const std::string &name);
-    std::string getId() const;
-    std::string getName() const;
+    Voter(const string &id, const string &name);
+    string getId() const;
+    string getName() const;
 
 private:
-    std::string id;
-    std::string name;
+    string id;
+    string name;
 };
 
 #endif // VOTER_H
