@@ -113,6 +113,8 @@ void ElectionCommission::startElection()
 
     Election election;
     string voterId, candidateId;
+    set<string> castedVote;
+
     while (true)
     {
         cout << "Enter Voter ID (or 'q' to quit): ";
@@ -124,20 +126,30 @@ void ElectionCommission::startElection()
             cout << "Invalid Voter ID. Please register first.\n";
             continue;
         }
-        cout << "Enter Candidate ID to vote for: ";
+
+        if (castedVote.find(voterId) != castedVote.end()) {
+            cout << "You have already voted!\n";
+            continue;
+        }
+
+            cout << "Enter Candidate ID to vote for: ";
         cin >> candidateId;
         if (candidates.find(candidateId) == candidates.end())
         {
             cout << "Invalid Candidate ID. Please try again.\n";
             continue;
         }
+
+         
         election.castVote(candidateId);
+        castedVote.insert(voterId);     
         cout << "Vote recorded.\n";
     }
 }
 
 void ElectionCommission::showResults()
 {
+    // load candidates with their name and id in a map
     ifstream fin("data/candidates.txt");
     map<string, string> candidates;
     string line;

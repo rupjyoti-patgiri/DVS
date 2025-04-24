@@ -3,16 +3,17 @@
 
 #include <string>
 #include <map>
+using namespace std;
 
 class Election
 {
 public:
-    void castVote(const std::string &candidateId);
-    std::map<std::string, int> countVotes() const;
+    void castVote(const string &candidateId);
+    map<string, int> countVotes() const;
     void resetResults();
 
 private:
-    const std::string resultsFile = "data/results.txt";
+    const string resultsFile = "data/results.txt";
 };
 
 #endif // ELECTION_H
